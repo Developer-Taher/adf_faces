@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كاشف معلومات السيارة - VIN Decoder</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="bg-animation"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <rect width="48" height="48" rx="12" fill="url(#grad1)"/>
+          <defs>
+            <linearGradient id="grad1" x1="0" y1="0" x2="48" y2="48">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <path d="M10 30 L14 20 L34 20 L38 30 Z" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="16" cy="32" r="3" fill="white"/>
+          <circle cx="32" cy="32" r="3" fill="white"/>
+          <path d="M14 26 L34 26" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h1>كاشف معلومات السيارة</h1>
+      <p>أدخل رقم الهيكل (VIN) للحصول على كامل مواصفات سيارتك</p>
+    </header>
+
+    <!-- Search Box -->
+    <div class="search-card">
+      <div class="input-wrapper">
+        <label>رقم الهيكل (VIN Number)</label>
+        <div class="input-group">
+          <input
+            type="text"
+            id="vinInput"
+            placeholder="مثال: 1HGBH41JXMN109186"
+            maxlength="17"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="char-count" id="charCount">0/17</span>
+        </div>
+        <p class="hint">رقم الهيكل يتكون من 17 حرف/رقم — تجده على لوحة السيارة أو على بطاقة التسجيل</p>
+      </div>
+      <button class="search-btn" id="searchBtn" onclick="decodeVIN()">
+        <span class="btn-text">🔍 ابحث عن السيارة</span>
+        <span class="btn-loader hidden" id="btnLoader">
+          <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" stroke-dasharray="40 20"/>
+          </svg>
+          جاري البحث...
+        </span>
+      </button>
+
+      <!-- Sample VINs -->
+      <div class="samples">
+        <span>جرب:</span>
+        <button class="sample-btn" onclick="setSample('1HGBH41JXMN109186')">Honda Civic</button>
+        <button class="sample-btn" onclick="setSample('1FTFW1ET5DFC10312')">Ford F-150</button>
+        <button class="sample-btn" onclick="setSample('JM1BK32F781850886')">Mazda 3</button>
+        <button class="sample-btn" onclick="setSample('WAUZZZ8K9BA123456')">Audi A4</button>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-card hidden" id="errorCard">
+      <span class="error-icon">⚠️</span>
+      <p id="errorMsg"></p>
+    </div>
+
+    <!-- Results -->
+    <div class="results hidden" id="results">
+
+      <!-- Car Header -->
+      <div class="car-header" id="carHeader">
+        <div class="car-image-section">
+          <div class="car-image-placeholder" id="carImagePlaceholder">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <path d="M15 52 L20 36 L60 36 L65 52 Z" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.1)"/>
+              <circle cx="25" cy="55" r="5" fill="white"/>
+              <circle cx="55" cy="55" r="5" fill="white"/>
+              <path d="M20 44 L60 44" stroke="white" stroke-width="2"/>
+              <path d="M25 36 L30 28 L50 28 L55 36" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="car-title">
+            <h2 id="carTitle">---</h2>
+            <div class="car-badges" id="carBadges"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <!-- Info Sections -->
+      <div class="sections" id="infoSections"></div>
+
+      <!-- Full Data Table -->
+      <div class="full-data-card">
+        <div class="section-header" onclick="toggleTable()">
+          <h3>📋 جميع البيانات الكاملة</h3>
+          <span class="toggle-icon" id="toggleIcon">▼</span>
+        </div>
+        <div class="table-wrapper" id="fullDataTable"></div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>البيانات من NHTSA — الوكالة الأمريكية لسلامة الطرق السريعة | مجاني 100%</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
